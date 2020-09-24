@@ -1,0 +1,23 @@
+/*
+    font-family: 'Dancing Script', cursive;
+font-family: 'Poppins', sans-serif;
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    color: #fff;
+    font-family: 'Dancing Script', cursive;
+    background-image: linear-gradient(to bottom,#16202e, #1e2130);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:center ;
+    min-height: 100vh;
+}
+h1{
+    text-align: center;
+    
+}

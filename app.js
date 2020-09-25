@@ -1,9 +1,21 @@
-const result = document.querySelector(".search-result");
+// import Emoji from "./Emoji";
 
-fetchStickers();
-async function fetchStickers() {
+// import {Emoji} from './Emoji';
+const result = document.querySelector(".search-result"),
+inputField = document.querySelector(".search-input input");
+
+inputField.addEventListener('keyup',(e)=>{
+  console.log(inputField.value);
+  input = inputField.value;
+  if(input!==''){
+    getEmoji(input);
+  }
+
+})
+
+async function getEmoji(input) {
   const emoji = await fetch(
-    "https://emoji-api.com/emojis?access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238"
+    `https://emoji-api.com/emojis?search=${input}&access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
   );
 
   const emojiResponse = await emoji.json();
@@ -20,13 +32,16 @@ function renderData(response) {
           </div>
     `;
   })
-  // for(let i=0;i<1793;i++){
-  //     markup += `
-  //         <div class="emoji-details">
-  //           <div class="emoji-icon">${response[i].character}</div>
-  //           <div class="name">${response[i].unicodeName}</div>
-  //         </div>
-  //     `;
-  // }
   result.innerHTML = markup;
 }
+
+
+// const controlSearch = async (input) =>{
+//   search = new Emoji(input);
+//   console.log(search);
+//   try {
+//     result = search.getResult();
+//   } catch (error) {
+//     console.log(error)
+//   }
+// };

@@ -7,17 +7,45 @@ font-family: 'Poppins', sans-serif;
     padding: 0;
     box-sizing: border-box;
 }
-
+html{font-size: 62.5%;}
 body{
     color: #333;
     font-family: 'Dancing Script', cursive;
     background: #F7F9F9;
     min-height: 100vh;
-
+    font-size: 1.6rem;
+}
+.container{
+    max-width : 90%;
+    margin: auto;
 }
 h1{
     text-align: center;
 }
+.search-input{
+    text-align: center;
+    margin:4rem;
+    font-size:1.6rem ;
+}
+.search{
+    font-family: cursive;
+    font-size: 2rem;
+}
+input{
+    display: inline-block;
+    background: #F7F9F9;
+    border: none;
+    border-bottom:2px solid #333 ;
+    padding: .5rem;
+    font-size: 1.4rem;
+    font-family: cursive;
+}
+input:active,
+input:focus{
+    outline: none;
+    box-shadow: 0 .4rem .8rem -.6rem #424242;
+}
+
 .search-result{
     display: flex;
     justify-content: center;
@@ -27,7 +55,6 @@ h1{
     font-family: cursive;
     width: 150px;
     margin: 10px;
-    /* border: 2px solid red; */
     padding: 10px;
     text-align: center;
     border-radius: 5px;

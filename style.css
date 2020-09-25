@@ -9,15 +9,40 @@ font-family: 'Poppins', sans-serif;
 }
 
 body{
-    color: #fff;
+    color: #333;
     font-family: 'Dancing Script', cursive;
-    background-image: linear-gradient(to bottom,#16202e, #1e2130);
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position:center ;
+    background: #F7F9F9;
     min-height: 100vh;
+
 }
 h1{
     text-align: center;
-    
+}
+.search-result{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.search-result .emoji-details{
+    font-family: cursive;
+    width: 150px;
+    margin: 10px;
+    /* border: 2px solid red; */
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 0 10px -2px #D0D3D4;
+    transition: all .5s ease;
+}
+.search-result .emoji-details:hover{
+    box-shadow:0 0 5px 2px #85C1E9 ;
+}
+.search-result .emoji-icon{
+    font-size: 50px;
+    /* border-bottom: 1px solid #D0D3D4; */
+    /* padding-bottom:20px ; */
+}
+.search-result .emoji-name{
+    font-size: 13px;
 }

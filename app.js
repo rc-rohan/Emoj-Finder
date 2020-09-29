@@ -1,4 +1,7 @@
-// import Emoji from "./Emoji";
+/* implement the MVC architecture */
+/*
+  ! add the modal popup
+*/
 
 const result = document.querySelector(".search-result"),
   inputField = document.querySelector(".search-input input"),
@@ -9,33 +12,76 @@ var response = [];
 inputField.addEventListener("keyup", () => {
   console.log(inputField.value);
   input = inputField.value;
-  if (input !== "") {
-    getEmoji(input);
+  getSearchedEmoji(input);
+});
+
+window.addEventListener("load", async () => {
+  // showLoader()
+  await getEmoji();
+  // removeLoader();
+  getSearchedEmoji();
+});
+
+async function getEmoji() {
+  const emoji = await fetch(
+    `https://emoji-api.com/emojis?access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
+  );
+  const emojiResponse = await emoji.json();
+  response = [...emojiResponse];
+  console.log(emojiResponse);
+}
+
+
+function getSearchedEmoji(input = "face") {
+  const filteredData = filterResponse(input, response);
+  console.log(filteredData);
+  if (filteredData.length === 0) {
+    console.log("alert");
+    alert("Emoji Does't exists");
+    showAlert();
   }
-});
-window.addEventListener("load", () => {
-  getEmoji();
-});
+  renderData(filteredData);
+}
+
+function filterResponse(input, response) {
+  console.log(input);
+  return response.filter((emoji) => {
+    const regexp = new RegExp(input, "gi");
+    return (
+      emoji.slug.match(regexp) ||
+      emoji.group.match(regexp) ||
+      emoji.unicodeName.match(regexp) ||
+      emoji.subGroup.match(regexp)
+    );
+  });
+}
+
 completeList.addEventListener("click", async () => {
   const emoji = await fetch(
     `https://emoji-api.com/emojis?access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
   );
-
   const allEmoji = await emoji.json();
   response = [...allEmoji];
-  console.log(allEmoji);
+  console.log(response);
   renderData(allEmoji);
 });
 
-async function getEmoji(input = "face") {
-  const emoji = await fetch(
-    `https://emoji-api.com/emojis?search=${input}&access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
-  );
+function showAlert() {
+  
 
-  const emojiResponse = await emoji.json();
-  response = [...emojiResponse]
-  console.log(emojiResponse);
-  renderData(emojiResponse);
+}
+
+function renderData(response) {
+  let markup = ``;
+  response.forEach((el, index) => {
+    markup += `
+           <div class="emoji-details"  id="${index}">
+             <div class="emoji-icon">${el.character}</div>
+             <div class="name">${el.unicodeName}</div>
+          </div>
+    `;
+  });
+  result.innerHTML = markup;
 }
 
 // result.addEventListener("click", (e) => {
@@ -61,17 +107,3 @@ async function getEmoji(input = "face") {
 //   bgColor.style.background = "rgba(86, 101, 115,.8   )";
 //   bgColor.style.height = "100vh";
 // });
-
-
-function renderData(response) {
-  let markup = ``;
-  response.forEach((el,index) => {
-    markup += `
-           <div class="emoji-details"  id="${index}">
-             <div class="emoji-icon">${el.character}</div>
-             <div class="name">${el.unicodeName}</div>
-          </div>
-    `;
-  });
-  result.innerHTML = markup;
-}

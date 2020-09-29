@@ -8,21 +8,25 @@ const result = document.querySelector(".search-result"),
   completeList = document.querySelector(".show-all-list");
 
 var response = [];
-
-inputField.addEventListener("keyup", () => {
-  console.log(inputField.value);
-  input = inputField.value;
-  getSearchedEmoji(input);
-});
-
 window.addEventListener("load", async () => {
   // showLoader()
-  await getEmoji();
+  await getAPIdata();
   // removeLoader();
   getSearchedEmoji();
 });
 
-async function getEmoji() {
+inputField.addEventListener("keyup", () => {
+  console.log(inputField.value);
+  input = inputField.value;
+  if(input.length!==0){
+    getSearchedEmoji(input);
+  }else{
+    /* when blank input field show only the face emoji list */
+    getSearchedEmoji();
+  }
+});
+
+async function getAPIdata() {
   const emoji = await fetch(
     `https://emoji-api.com/emojis?access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
   );
@@ -31,13 +35,11 @@ async function getEmoji() {
   console.log(emojiResponse);
 }
 
-
 function getSearchedEmoji(input = "face") {
   const filteredData = filterResponse(input, response);
   console.log(filteredData);
   if (filteredData.length === 0) {
     console.log("alert");
-    alert("Emoji Does't exists");
     showAlert();
   }
   renderData(filteredData);
@@ -56,20 +58,31 @@ function filterResponse(input, response) {
   });
 }
 
-completeList.addEventListener("click", async () => {
-  const emoji = await fetch(
-    `https://emoji-api.com/emojis?access_key=069cfd5b04b4a0fb85e0cc84dec7a18fd04c2238`
-  );
-  const allEmoji = await emoji.json();
-  response = [...allEmoji];
-  console.log(response);
-  renderData(allEmoji);
+completeList.addEventListener("click",  () => {
+
+    /* display the entore respose list */
+  renderData(response);
+  console.log(response)
 });
 
-function showAlert() {
-  
+function clearAlert(){
 
+  const currAlert = document.querySelector('.alert-popup');
+  console.log(currAlert);
+  if(currAlert){
+    currAlert.remove();
+  }
 }
+function showAlert() {
+  clearAlert();
+  const alert = document.createElement('div');
+  alert.className = "alert-popup"
+  alert.innerHTML = "<p>&#x26A0; Username doesn't exists</p>";
+  const searchEl = document.querySelector(".search-input");
+  searchEl.insertAdjacentElement("afterbegin",alert);
+  setTimeout(clearAlert,1000);
+}
+
 
 function renderData(response) {
   let markup = ``;

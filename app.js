@@ -6,6 +6,7 @@ const searchResult = document.querySelector(".search-result"),
   modalElement = document.querySelector(".modal");
 
 var response = [];
+var currData= [];
 window.addEventListener("load", async () => {
   // showLoader()
   await getAPIdata();
@@ -14,7 +15,6 @@ window.addEventListener("load", async () => {
 });
 
 inputField.addEventListener("keyup", () => {
-  console.log(inputField.value);
   input = inputField.value;
   if (input.length !== 0) {
     getSearchedEmoji(input);
@@ -29,21 +29,20 @@ async function getAPIdata() {
   );
   const emojiResponse = await emoji.json();
   response = [...emojiResponse];
-  console.log(emojiResponse);
+  console.log("Got data from API");
 }
 
 function getSearchedEmoji(input = "smileys-emotion") {
   const filteredData = filterResponse(input, response);
-  console.log(filteredData);
   if (filteredData.length === 0) {
     showAlert();
   } else {
+    currData = [...filteredData];
     renderData(filteredData);
   }
 }
 
 function filterResponse(input, response) {
-  console.log(input);
   return response.filter((emoji) => {
     const regexp = new RegExp(input, "gi");
     return (
@@ -61,7 +60,6 @@ completeList.addEventListener("click", () => {
 
 function clearAlert() {
   const currAlert = document.querySelector(".alert-popup");
-  console.log(currAlert);
   if (currAlert) {
     currAlert.remove();
   }
@@ -75,10 +73,9 @@ function showAlert() {
   alertDiv.insertAdjacentElement("afterbegin", alert);
   setTimeout(clearAlert, 1000);
 }
-
-function renderData(response) {
+function renderData(emojiArr) {
   let markup = ``;
-  response.forEach((el, index) => {
+  emojiArr.forEach((el, index) => {
     markup += `
            <div class="emoji-details"  id="${index}">
              <div class="emoji-icon">${el.character}</div>
@@ -102,7 +99,7 @@ searchResult.addEventListener("click", (e) => {
   const element = e.target.closest(".emoji-details");
   if (element) {
     const id = element.id;
-    const data = response[id];
+    const data = currData[id];
     const popup = document.querySelector(".modal");
     const markup = `
         <div class="popup">
